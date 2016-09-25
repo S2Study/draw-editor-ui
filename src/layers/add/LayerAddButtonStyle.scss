@@ -1,0 +1,17 @@
+@import "../item";
+@include item__container;
+.item__add{
+	@include layers__item;
+	color:$color-primary;
+	:hover{
+		color:$color-primary-hover;
+	}
+	:active{
+		color:$color-primary-active;
+	}
+}
+.item__add_disabled{
+	@include layers__item;
+	cursor:not-allowed!important;
+	color:$color-primary-disable;
+}

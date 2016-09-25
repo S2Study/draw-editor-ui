@@ -1,0 +1,21 @@
+{
+  "name": "loligo",
+  "version": false,
+  "dependencies": {
+    "react-dom": "registry:npm/react-dom#15.0.1+20160705210405",
+    "sinon": "registry:npm/sinon#1.16.0+20160723033700"
+  },
+  "globalDependencies": {
+    "draw-structure-api": "npm:@s2study/draw-api/dts/draw-structure-api.d.ts",
+    "draw-renderer": "npm:@s2study/draw-api/dts/draw-renderer.d.ts",
+    "draw-history": "npm:@s2study/draw-api/dts/draw-history.d.ts",
+    "draw-editor": "npm:@s2study/draw-api/dts/draw-editor.d.ts",
+    "draw-viewer": "npm:@s2study/draw-api/dts/draw-viewer.d.ts",
+    "empower": "registry:dt/empower#0.0.0+20160317120654",
+    "eventemitter3": "registry:dt/eventemitter3#1.1.1+20151208234524",
+    "mocha": "registry:dt/mocha#2.2.5+20160720003353",
+    "power-assert": "registry:dt/power-assert#0.0.0+20160316155526",
+    "power-assert-formatter": "registry:dt/power-assert-formatter#0.0.0+20160317120654",
+    "react": "registry:dt/react#0.14.0+20160805125551"
+  }
+}
