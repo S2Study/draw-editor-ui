@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './EditorMainStyle.scss';
+import * as styles from './EditorMainStyle.css';
 import DrawchatEditor = drawchat.editor.DrawchatEditor;
 
 class Point{

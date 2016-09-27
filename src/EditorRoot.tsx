@@ -5,7 +5,7 @@ import DrawchatEditorProperties = drawchat.editor.DrawchatEditorProperties;
 import DrawchatModeChanger = drawchat.editor.DrawchatModeChanger;
 
 import * as React from 'react';
-import * as styles from './EditorRootStyle.scss';
+import * as styles from './EditorRootStyle.css';
 import {MenuBar} from "./menu_bar/MenuBar";
 import CanvasContainer from "./canvas_container/CanvasContainer";
 import {ColorSelector} from "./color_selector/ColorSelector";

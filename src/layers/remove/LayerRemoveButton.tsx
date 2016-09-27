@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './LayerRemoveButtonStyle.scss';
+import * as styles from './LayerRemoveButtonStyle.css';
 
 export interface LayerRemoveButtonProps {
 	action():void;

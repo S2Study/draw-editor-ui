@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './ColorPaletteButtonStyle.scss';
+import * as styles from './ColorPaletteButtonStyle.css';
 
 export class ColorPalette extends React.Component<any, any> {
 	constructor(props:any) {

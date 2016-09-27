@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './MenuBarStyle.scss';
+import * as styles from './MenuBarStyle.css';
 import {RedoButton} from "./redo/RedoButton";
 import {UndoButton} from "./undo/UndoButton";
 import {SaveButton} from "./save/SaveButton";

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './UndoButtonStyle.scss';
+import * as styles from './UndoButtonStyle.css';
 
 export interface UndoButtonProps {
 	action():void;

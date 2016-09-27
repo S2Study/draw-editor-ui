@@ -1,6 +1,6 @@
 import DrawchatEditorProperties = drawchat.editor.DrawchatEditorProperties;
 import * as React from 'react';
-import * as styles from './BrushToolButtonStyle.scss';
+import * as styles from './BrushToolButtonStyle.css';
 
 export interface BrushToolButtonProps {
 	key:any;

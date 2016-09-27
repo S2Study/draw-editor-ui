@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './LayerAddButtonStyle.scss';
+import * as styles from './LayerAddButtonStyle.css';
 
 export interface LayerAddButtonProps {
 	action():void;

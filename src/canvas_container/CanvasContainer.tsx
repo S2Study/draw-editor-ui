@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './CanvasContainerStyle.scss';
+import * as styles from './CanvasContainerStyle.css';
 import DrawchatEditor = drawchat.editor.DrawchatEditor;
 
 export interface CanvasContainerProps {

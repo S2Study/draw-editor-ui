@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './LayerTabStyle.scss';
+import * as styles from './LayerTabStyle.css';
 
 export interface LayerTabProps {
 	key:any;

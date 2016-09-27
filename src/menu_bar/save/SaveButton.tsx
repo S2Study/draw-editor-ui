@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './SaveButtonStyle.scss';
+import * as styles from './SaveButtonStyle.css';
 
 export interface SaveButtonProps {
 	action():void;

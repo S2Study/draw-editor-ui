@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './HandToolButtonStyle.scss';
+import * as styles from './HandToolButtonStyle.css';
 import DrawchatEditorProperties = drawchat.editor.DrawchatEditorProperties;
 
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './ColorSelectorStyle.scss';
+import * as styles from './ColorSelectorStyle.css';
 import {ColorItem} from "./color_item/ColorItem";
 import {ColorPalette} from "./color_palette/ColorPaletteButton";
 import Color = drawchat.editor.Color;

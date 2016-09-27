@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './LayersStyle.scss';
+import * as styles from './LayersStyle.css';
 import {LayerRemoveButton} from "./remove/LayerRemoveButton";
 import {LayerTab} from "./layer/LayerTab";
 import {LayerAddButton} from "./add/LayerAddButton";

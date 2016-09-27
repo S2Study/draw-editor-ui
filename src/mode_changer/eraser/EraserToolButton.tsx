@@ -1,6 +1,6 @@
 import DrawchatEditorProperties = drawchat.editor.DrawchatEditorProperties;
 import * as React from 'react';
-import * as styles from './EraserToolButtonStyle.scss';
+import * as styles from './EraserToolButtonStyle.css';
 
 export interface EraserToolButtonProps {
 	key:any;

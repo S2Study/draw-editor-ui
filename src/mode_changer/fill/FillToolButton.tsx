@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './FillToolButtonStyle.scss';
+import * as styles from './FillToolButtonStyle.css';
 import DrawchatEditorProperties = drawchat.editor.DrawchatEditorProperties;
 
 export interface FillToolButtonProps {

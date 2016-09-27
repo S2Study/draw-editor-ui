@@ -1,6 +1,6 @@
 import DrawchatModeChanger = drawchat.editor.DrawchatModeChanger;
 import * as React from 'react';
-import * as styles from './ModeChangerStyle.scss';
+import * as styles from './ModeChangerStyle.css';
 import {BrushToolButton} from "./brush/BrushToolButton";
 import {FillToolButton} from "./fill/FillToolButton";
 import {HandToolButton} from "./hand/HandToolButton";

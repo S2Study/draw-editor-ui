@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './RedoButtonStyle.scss';
+import * as styles from './RedoButtonStyle.css';
 
 export interface RedoButtonProps {
 	action():void;

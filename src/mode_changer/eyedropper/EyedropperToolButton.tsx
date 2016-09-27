@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './EyedropperToolButtonStyle.scss';
+import * as styles from './EyedropperToolButtonStyle.css';
 import DrawchatEditorProperties = drawchat.editor.DrawchatEditorProperties;
 
 export interface EyedropperToolButtonState {

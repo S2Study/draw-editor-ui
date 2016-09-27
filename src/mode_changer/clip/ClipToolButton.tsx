@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './ClipToolButtonStyle.scss';
+import * as styles from './ClipToolButtonStyle.css';
 
 export interface ClipToolButtonProps {
 	key:any;
