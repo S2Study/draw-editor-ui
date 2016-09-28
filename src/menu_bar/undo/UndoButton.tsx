@@ -1,20 +1,21 @@
-import * as React from 'react';
-import * as styles from './UndoButtonStyle.css';
+import * as React from "react";
+import * as styles from "./UndoButtonStyle.css";
 
 export interface UndoButtonProps {
-	action():void;
-	disabled:boolean;
+	action(): void;
+	disabled: boolean;
 }
 export class UndoButton extends React.Component<UndoButtonProps, any> {
 
-	constructor(props:UndoButtonProps) {
+	constructor(props: UndoButtonProps) {
 		super(props);
 	}
+
 	render() {
-		return(
+		return (
 			<div className={styles.item}>
-				<div onClick={()=>{
-					if(!this.props.disabled){
+				<div onClick={() => {
+					if(!this.props.disabled) {
 						this.props.action();
 					}
 				}} className={this.props.disabled ? styles.item__square_disabled : styles.item__square}>

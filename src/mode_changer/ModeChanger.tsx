@@ -1,6 +1,9 @@
-import DrawchatModeChanger = drawchat.editor.DrawchatModeChanger;
-import * as React from 'react';
-import * as styles from './ModeChangerStyle.css';
+import drawchat from "@s2study/draw-api";
+
+import DrawchatModeChanger = drawchat.editor.DrawEditorModeChanger;
+import DrawchatEditorProperties = drawchat.editor.DrawEditorProperties;
+import * as React from "react";
+import * as styles from "./ModeChangerStyle.css";
 import {BrushToolButton} from "./brush/BrushToolButton";
 import {FillToolButton} from "./fill/FillToolButton";
 import {HandToolButton} from "./hand/HandToolButton";
@@ -8,45 +11,45 @@ import {TextToolButton} from "./text/TextToolButton";
 import {ClipToolButton} from "./clip/ClipToolButton";
 import {EyedropperToolButton} from "./eyedropper/EyedropperToolButton";
 import {EraserToolButton} from "./eraser/EraserToolButton";
-import DrawchatEditorProperties = drawchat.editor.DrawchatEditorProperties;
 
-export class ModeItem{
-	mode:number;
-	thickness:number;
-	selected:boolean;
-	constructor(mode:number,thickness?:number,selected?:boolean){
+export class ModeItem {
+	mode: number;
+	thickness: number;
+	selected: boolean;
+
+	constructor(mode: number, thickness?: number, selected?: boolean) {
 		this.mode = mode;
 		this.selected = selected;
 		this.thickness = thickness;
 	}
 }
-export interface ModeChangerProps{
-	modeItems:ModeItem[];
-	editorProperties:DrawchatEditorProperties;
-	changer:DrawchatModeChanger;
-	onSelect:ModeChangerHandler;
+export interface ModeChangerProps {
+	modeItems: ModeItem[];
+	editorProperties: DrawchatEditorProperties;
+	changer: DrawchatModeChanger;
+	onSelect: ModeChangerHandler;
 }
-export interface ModeChangerHandler{
-	(index:number):void;
+export interface ModeChangerHandler {
+	(index: number): void;
 }
 export class ModeChanger extends React.Component<ModeChangerProps, any> {
 
-	constructor(props:ModeChangerProps) {
+	constructor(props: ModeChangerProps) {
 		super(props);
 	}
 
 	render() {
-		return(
+		return (
 			<div className={styles.container}>
-				{this.props.modeItems.map((item,i)=>{
-					switch (item.mode){
+				{this.props.modeItems.map((item, i) => {
+					switch (item.mode) {
 						case this.props.changer.STROKE_MODE:
 							return <BrushToolButton
 								editorProperties={this.props.editorProperties}
 								key={i}
 								selected={item.selected}
 								thickness={item.thickness}
-								onSelect={()=>{
+								onSelect={() => {
 									this.props.onSelect(i);
 								}}
 							/>;
@@ -55,7 +58,7 @@ export class ModeChanger extends React.Component<ModeChangerProps, any> {
 								editorProperties={this.props.editorProperties}
 								key={i}
 								selected={item.selected}
-								onSelect={()=>{
+								onSelect={() => {
 									this.props.onSelect(i);
 								}}
 							/>;
@@ -64,7 +67,7 @@ export class ModeChanger extends React.Component<ModeChangerProps, any> {
 								editorProperties={this.props.editorProperties}
 								key={i}
 								selected={item.selected}
-								onSelect={()=>{
+								onSelect={() => {
 									this.props.onSelect(i);
 								}}
 							/>;
@@ -73,7 +76,7 @@ export class ModeChanger extends React.Component<ModeChangerProps, any> {
 								editorProperties={this.props.editorProperties}
 								key={i}
 								selected={item.selected}
-								onSelect={()=>{
+								onSelect={() => {
 									this.props.onSelect(i);
 								}}
 							/>;
@@ -81,7 +84,7 @@ export class ModeChanger extends React.Component<ModeChangerProps, any> {
 							return <ClipToolButton
 								key={i}
 								selected={item.selected}
-								onSelect={()=>{
+								onSelect={() => {
 									this.props.onSelect(i);
 								}}
 							/>;
@@ -90,7 +93,7 @@ export class ModeChanger extends React.Component<ModeChangerProps, any> {
 								editorProperties={this.props.editorProperties}
 								key={i}
 								selected={item.selected}
-								onSelect={()=>{
+								onSelect={() => {
 									this.props.onSelect(i);
 								}}
 							/>;
@@ -99,7 +102,7 @@ export class ModeChanger extends React.Component<ModeChangerProps, any> {
 								editorProperties={this.props.editorProperties}
 								key={i}
 								selected={item.selected}
-								onSelect={()=>{
+								onSelect={() => {
 									this.props.onSelect(i);
 								}}
 							/>;

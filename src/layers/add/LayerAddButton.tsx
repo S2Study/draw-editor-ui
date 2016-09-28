@@ -1,20 +1,21 @@
-import * as React from 'react';
-import * as styles from './LayerAddButtonStyle.css';
+import * as React from "react";
+import * as styles from "./LayerAddButtonStyle.css";
 
 export interface LayerAddButtonProps {
-	action():void;
-	disabled:boolean;
+	action(): void;
+	disabled: boolean;
 }
 export class LayerAddButton extends React.Component<LayerAddButtonProps, any> {
-	constructor(props:LayerAddButtonProps) {
+	constructor(props: LayerAddButtonProps) {
 		super(props);
 	}
+
 	render() {
-		return(
+		return (
 			<div className={styles.item}>
 				<div
-					onClick={()=>{
-						if(!this.props.disabled){
+					onClick={() => {
+						if (!this.props.disabled) {
 							this.props.action();
 						}
 					}}
