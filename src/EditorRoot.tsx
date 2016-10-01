@@ -1,4 +1,4 @@
-import drawchat from "@s2study/draw-api";
+import * as drawchat from "@s2study/draw-api";
 
 import DrawchatEditor = drawchat.editor.DrawEditor;
 import Color = drawchat.editor.Color;
