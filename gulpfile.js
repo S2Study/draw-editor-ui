@@ -45,6 +45,11 @@ gulp.task('compile-lib',['tslint'], () => {
 gulp.task('compile',['compile-lib','scss'], ()=>{
 		return doCompile(['index.ts','typings/**/*.d.ts'],'.');
 });
+// gulp.task('webpack', function () {
+// 	gulp.src(['./src/ts/*.ts'])
+// 		.pipe(webpack(webpackConfig))
+// 		.pipe(gulp.dest('./dist'));
+// });
 gulp.task('default', ['compile']);
 gulp.task('scss', function() {
 	var processors = [

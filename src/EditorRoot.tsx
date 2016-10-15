@@ -7,6 +7,7 @@ import DrawchatEditorProperties = drawchat.editor.DrawEditorProperties;
 import DrawchatModeChanger = drawchat.editor.DrawEditorModeChanger;
 import DrawchatRenderer = drawchat.renderer.DrawchatRenderer;
 import DrawHistory = drawchat.history.DrawHistory;
+import Message = drawchat.structures.Message;
 
 import * as React from "react";
 import * as styles from "./EditorRootStyle.css";
@@ -29,8 +30,10 @@ export class EditorRootState {
 	modeChangeFirst: boolean = true;
 	canvasId: string;
 
-	constructor(editor: DrawchatEditor,
-				canvasId: string) {
+	constructor(
+		editor: DrawchatEditor,
+		canvasId: string
+	) {
 		this.editor = editor;
 		this.canvasId = canvasId;
 		this.latest = -1;
@@ -55,11 +58,12 @@ export class EditorRootState {
 }
 
 export interface EditorRootProps {
-	// editor:DrawchatEditor;
 	history: DrawHistory;
 	canvasElement?: string;
 	canvasWidth?: number;
 	canvasHeight?: number;
+	disableDownload?: boolean;
+	save?: (message: Message) => void;
 }
 
 export class EditorRoot extends React.Component<EditorRootProps, EditorRootState> {
@@ -126,6 +130,34 @@ export class EditorRoot extends React.Component<EditorRootProps, EditorRootState
 		return true;
 	}
 
+	download(uri: string) {
+
+		const name     = "draw.png";
+		const a = document.createElement("a");
+		a.download = name;
+		a.target   = "_blank";
+
+		if (window.navigator.msSaveBlob) {
+			// for IE
+			const xhr = new XMLHttpRequest();
+			xhr.open("GET", uri);
+			xhr.responseType = "blob";
+
+			xhr.onloadend = function() {
+				if (xhr.status !== 200) return;
+				window.navigator.msSaveBlob(xhr.response, name);
+			};
+			xhr.send();
+			return;
+		}
+
+		// for Firefox
+		a.href = uri;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+	};
+
 	/**
 	 * 画面リフレッシュ
 	 */
@@ -170,13 +202,15 @@ export class EditorRoot extends React.Component<EditorRootProps, EditorRootState
 				</div>
 				<div className={styles.menuBar}>
 					<MenuBar
-						canRedo={
-							this.state.editor.canRedo()
-						}
-						canUndo={
-							this.state.editor.canUndo()
-						}
-						canSave={false}
+						canDownload={!this.props.disableDownload}
+						canRedo={this.state.editor.canRedo()}
+						canUndo={this.state.editor.canUndo()}
+						canSave={this.props.save != null}
+						download={() => {
+							this.state.editor.createImageURI().then((uri) => {
+								this.download(uri);
+							});
+						}}
 						undo={() => {
 							this.state.editor.undo().then(() => {
 								this.refresh();
@@ -188,7 +222,9 @@ export class EditorRoot extends React.Component<EditorRootProps, EditorRootState
 							});
 						}}
 						save={() => {
-							// 未実装
+							this.state.editor.generateMessage().then((message) => {
+								this.props.save(message);
+							});
 						}}
 					/>
 				</div>
@@ -243,3 +279,4 @@ export class EditorRoot extends React.Component<EditorRootProps, EditorRootState
 		);
 	}
 }
+export default EditorRoot;

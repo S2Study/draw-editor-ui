@@ -1,14 +1,15 @@
-var path = require('path');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var autoprefixer = require('autoprefixer');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const autoprefixer = require('autoprefixer');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require("webpack");
 
 module.exports = [
 	{
 		context: __dirname,
-		entry: './lib/entry.js',
+		entry: './lib/ExportRenderEditor.js',
 		output: {
-			filename: './artifact/app.js'
+			filename: './dist/s2study-draw-ui.js'
 		},
 		resolve: {
 			extensions: ['' , '.css' , '.js' , '.json'],
@@ -24,11 +25,11 @@ module.exports = [
 				//	CSS
 				{
 					test: /(\.css)$/,
-					loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss')
-					// test: /(\.scss|\.css)$/,
-					// loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
+					loaders: [
+						'style',
+						'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss'
+					]
 				},
-
 				//	Image
 				{
 					test: /\.(png|jpg|jpeg|gif|bmp)$/, loader: 'url-loader?limit=8192'
@@ -42,60 +43,64 @@ module.exports = [
 			]
 		},
 		postcss: [autoprefixer],
-		// sassLoader: {
-		// 	data: '@import "theme/_config.scss";',
-		// 	includePaths: [path.resolve(__dirname, './scss')]
-		// },
 		plugins: [
-			new ExtractTextPlugin('./artifact/app.css', { allChunks: true }),
-		]
-		,
-		externals: {
-			"react": "React",
-			"react-dom": "ReactDOM"
-		}
-	},
-	// デフォルトCSS
-	{
-		entry: './scss/loader.js',
-		output: {
-			filename: './artifact/default.css'
-		},
-		devtool: 'source-map',
-		module: {
-			loaders: [
-				{
-					test: /\.css$/,
-					loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-				},
-				{
-					test: /\.scss$/,
-					loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader")
+			new webpack.DefinePlugin({
+				"process.env": {
+					NODE_ENV: JSON.stringify("production"),
+					BROWSER: JSON.stringify(true)
 				}
-			]
-		},
-		plugins: [
-			new ExtractTextPlugin('./artifact/default.css')
-		]
+			}),
+			// new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor-[chunkhash].js', Infinity),
+			new webpack.optimize.DedupePlugin(),
+			new webpack.optimize.OccurenceOrderPlugin(true),
+			new webpack.optimize.UglifyJsPlugin()
+		],
+		// externals: {
+		// 	"react": "React",
+		// 	"react-dom": "ReactDOM"
+		// }
 	},
-	//HTMLファイル
-	{
-		output: {
-			path: 'artifact',
-			filename: 'index.html'
-		},
-		module: {
-			loaders: [
-				{
-					test: /\.hbs$/, loader: "handlebars"
-				}
-			]
-		},
-		plugins: [
-			new HtmlWebpackPlugin({
-				template: 'hbs/entry.hbs',
-				cacheBreak: new Date().getTime()
-			})
-		]
-	}
+	// // デフォルトCSS
+	// {
+	// 	entry: './scss/loader.js',
+	// 	output: {
+	// 		filename: './dist/default.css'
+	// 	},
+	// 	devtool: 'source-map',
+	// 	module: {
+	// 		loaders: [
+	// 			{
+	// 				test: /\.css$/,
+	// 				loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+	// 			},
+	// 			{
+	// 				test: /\.scss$/,
+	// 				loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader")
+	// 			}
+	// 		]
+	// 	},
+	// 	plugins: [
+	// 		new ExtractTextPlugin('./artifact/default.css')
+	// 	]
+	// },
+	// //HTMLファイル
+	// {
+	// 	output: {
+	// 		path: 'dist',
+	// 		filename: 'index.html'
+	// 	},
+	// 	module: {
+	// 		loaders: [
+	// 			{
+	// 				test: /\.hbs$/, loader: "handlebars"
+	// 			}
+	// 		]
+	// 	},
+	// 	plugins: [
+	// 		new HtmlWebpackPlugin({
+	// 			template: 'hbs/entry.hbs',
+	// 			cacheBreak: new Date().getTime()
+	// 		})
+	// 	]
+	// }
 ];

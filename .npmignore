@@ -13,7 +13,9 @@ coverage/
 classes/
 node_modules/
 bin/
+scss/
 src/
+hbs/
 typings/
 /**/src/ts/**/*.ts
 *.class
@@ -30,4 +32,6 @@ gulpfile.js
 tsconfig.json
 typings.json
 index.ts
+tslint.json
+webpack.*.js
 test-results.xml
