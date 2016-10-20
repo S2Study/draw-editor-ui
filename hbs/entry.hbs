@@ -9,11 +9,16 @@
     <!--<link href="app.css?{{htmlWebpackPlugin.options.cacheBreak}}" type="text/css" rel="stylesheet"/>-->
 <body>
 <div id="root"></div>
+<div id="root2"></div>
 <!--<script src="../node_modules/react/dist/react.js"></script>-->
 <!--<script src="../node_modules/react-dom/dist/react-dom.js"></script></head>-->
-<script src="s2study-draw-ui.js?{{htmlWebpackPlugin.options.cacheBreak}}"></script>
+<script src="../dist/s2study-draw-ui.js?{{htmlWebpackPlugin.options.cacheBreak}}"></script>
 <script>
-    s2study.render();
+    window.onload = function(){
+        s2study.draw.loadEditor(null , (json) => {
+            s2study.draw.render("root2", json);
+        });
+    };
 </script>
 </body>
 </html>

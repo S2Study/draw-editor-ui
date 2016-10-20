@@ -8,9 +8,9 @@ import {EditorRoot} from "./EditorRoot";
 
 export default function (
 	history: DrawHistory,
+	id: string,
 	width?: number,
 	height?: number,
-	id: string = "root",
 	saveJSON: (message: Message) => any = null,
 	disableDownload: boolean = true
 ): void {

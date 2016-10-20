@@ -19,6 +19,7 @@ import {Layers} from "./layers/Layers";
 import {EditorMain} from "./canvas_container/EditorMain";
 import Renderer from "@s2study/draw-canvas2d-renderer";
 import Editor from "@s2study/draw-editor";
+import uuid from "./UUID";
 
 export class EditorRootState {
 	editor: DrawchatEditor;
@@ -70,7 +71,7 @@ export class EditorRoot extends React.Component<EditorRootProps, EditorRootState
 
 	constructor(props: EditorRootProps) {
 		super(props);
-		const canvasId = props.canvasElement == null ? "editorCanvas" : props.canvasElement;
+		const canvasId = props.canvasElement == null ? uuid() : props.canvasElement;
 		const renderer = Renderer.createDOMRenderer(
 			canvasId,
 			props.canvasWidth == null ? 600 : props.canvasWidth,

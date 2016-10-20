@@ -1,6 +1,6 @@
 {
   "name": "draw-editor-ui",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "react依存の編集用UI",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "license": "MIT",
   "devDependencies": {
     "@s2study/draw-canvas2d-renderer": "^0.1.4",
-    "@s2study/draw-history": "^0.1.9",
+    "@s2study/draw-history": "^0.1.10",
     "@types/empower": "^1.2.30",
     "@types/mocha": "^2.2.32",
     "@types/power-assert": "^1.4.29",
@@ -48,7 +48,7 @@
     "node-sass": "^3.10.1",
     "path": "^0.12.7",
     "postcss-cssnext": "^2.8.0",
-    "postcss-loader": "^0.13.0",
+    "postcss-loader": "^1.0.0",
     "power-assert": "^1.4.1",
     "process": "^0.11.9",
     "react-transform-catch-errors": "^1.0.2",
