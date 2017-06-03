@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = [
 	{
 		context: __dirname,
-		entry: './src/entry.tsx',
+		entry: './src/index.tsx',
 		output: {
 			filename: './artifact/app.js'
 		},

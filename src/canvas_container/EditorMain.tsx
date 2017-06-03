@@ -1,8 +1,6 @@
-import * as drawchat from "@s2study/draw-api";
-
 import * as React from "react";
 import * as styles from "./EditorMainStyle.css";
-import DrawchatEditor = drawchat.editor.DrawEditor;
+import {Editor} from "@s2study/draw-editor/lib/Editor";
 
 class Point {
 	x: number;
@@ -14,51 +12,56 @@ class Point {
 	}
 }
 
+function EMPTY_FUNC(event: MouseEvent): void {}
+
 export class EditorMainState {
 	click: boolean;
 	moving: boolean;
-	editor: DrawchatEditor;
+	editor: Editor;
 	mouseOut: (event: MouseEvent) => void;
 	mouseMove: (event: MouseEvent) => void;
 	mouseDown: (event: MouseEvent) => void;
 	mouseUp: (event: MouseEvent) => void;
 
-	constructor(editor: DrawchatEditor) {
+	constructor(editor: Editor) {
 		this.editor = editor;
 	}
 }
 export interface EditorMainProps {
 	id: string;
-	editor: DrawchatEditor;
+	editor: Editor;
 }
 export class EditorMain extends React.Component<EditorMainProps, EditorMainState> {
+
 	constructor(props: EditorMainProps) {
 		super(props);
 		this.state = new EditorMainState(props.editor);
 	}
 
 	componentDidMount(): void {
-		this.state.editor.reRender();
-		this.state.editor.start();
-		let element = document.getElementById(this.props.id);
 
-		this.state.mouseMove = (event: MouseEvent) => {
-			if (!this.state.click) {
+		let state1: EditorMainState = this.state;
+		state1.editor.reRender();
+		state1.editor.start();
+		let element = document.getElementById(this.props.id)!;
+
+		state1.mouseMove = (event: MouseEvent) => {
+			if (!state1.click) {
 				return;
 			}
-			this.state.moving = true;
+			state1.moving = true;
 			let point = this.getOffset(element, event);
 			this.props.editor.canvas.touchMove(point.x, point.y);
 		};
-		this.state.mouseDown = (event: MouseEvent) => {
-			this.state.click = true;
+		state1.mouseDown = (event: MouseEvent) => {
+			state1.click = true;
 			let point = this.getOffset(element, event);
 			this.props.editor.canvas.touchStart(point.x, point.y);
 		};
-		this.state.mouseUp = (event: MouseEvent) => {
+		state1.mouseUp = (event: MouseEvent) => {
 			this.drop(element, event);
 		};
-		this.state.mouseOut = (event: MouseEvent) => {
+		state1.mouseOut = (event: MouseEvent) => {
 			if (!this.state.moving) {
 				return;
 			}
@@ -96,26 +99,28 @@ export class EditorMain extends React.Component<EditorMainProps, EditorMainState
 	}
 
 	private drop(element: Element, event: MouseEvent) {
-		this.state.click = false;
-		this.state.moving = false;
+		let state1: EditorMainState = this.state;
+		state1.click = false;
+		state1.moving = false;
 		let point = this.getOffset(element, event);
 		this.props.editor.canvas.touchEnd(point.x, point.y);
 	}
 
 	componentWillMount(): void {
-		this.state.editor.stop();
+		let state1: EditorMainState = this.state;
+		state1.editor.stop();
 		let element = document.getElementById(this.props.id);
 
 		if (element == null) {
 			return;
 		}
-		element.removeEventListener("mousemove", this.state.mouseMove);
-		element.removeEventListener("mousedown", this.state.mouseDown);
-		document.removeEventListener("mouseup", this.state.mouseUp);
-		element.removeEventListener("mouseout", this.state.mouseOut);
-		this.state.mouseMove = null;
-		this.state.mouseDown = null;
-		this.state.mouseUp = null;
+		element.removeEventListener("mousemove", state1.mouseMove);
+		element.removeEventListener("mousedown", state1.mouseDown);
+		document.removeEventListener("mouseup", state1.mouseUp);
+		element.removeEventListener("mouseout", state1.mouseOut);
+		state1.mouseMove = EMPTY_FUNC;
+		state1.mouseDown = EMPTY_FUNC;
+		state1.mouseUp = EMPTY_FUNC;
 	}
 
 	private getOffset(element: Element, event: MouseEvent): Point {

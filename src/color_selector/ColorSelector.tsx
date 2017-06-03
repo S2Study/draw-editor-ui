@@ -1,20 +1,19 @@
-import * as drawchat from "@s2study/draw-api";
-
 import * as React from "react";
 import * as styles from "./ColorSelectorStyle.css";
 import {ColorItem} from "./color_item/ColorItem";
-import {ColorPalette} from "./color_palette/ColorPaletteButton";
-import Color = drawchat.editor.Color;
+import {Color} from "@s2study/draw-editor/lib";
 
 export class ColorValue {
+
 	color: Color;
 	selected: boolean;
 
-	constructor(color?: Color, selected?: boolean) {
+	constructor(color: Color, selected: boolean) {
 		this.color = color;
 		this.selected = selected;
 	}
 }
+
 export class ColorSelectorState {
 	colors: ColorValue[];
 	palette: any;
@@ -44,7 +43,7 @@ export class ColorSelector extends React.Component<ColorSelectorProps, ColorSele
 
 	selectColor(color: Color, index: number): void {
 		this.setState(new ColorSelectorState(
-			this.state.colors.map((colorValue, i)=> {
+			this.state.colors.map((colorValue, i) => {
 				return new ColorValue(colorValue.color, i === index);
 			})
 		));
@@ -55,9 +54,10 @@ export class ColorSelector extends React.Component<ColorSelectorProps, ColorSele
 		return (
 			<div className={styles.container}>
 				{this.state.colors.map((colorValue, index) => {
-					return <ColorItem key={index} color={colorValue.color} selected={colorValue.selected} onSelect={() => {
-						this.selectColor(colorValue.color,index);
-					}}/>;
+					return <ColorItem key={index} color={colorValue.color} selected={colorValue.selected}
+						onSelect={() => {
+							this.selectColor(colorValue.color, index);
+						}}/>;
 				})}
 				{/*<ColorPalette />*/}
 			</div>

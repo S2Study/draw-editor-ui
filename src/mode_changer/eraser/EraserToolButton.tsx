@@ -1,14 +1,12 @@
-import * as drawchat from "@s2study/draw-api";
-
-import DrawchatEditorProperties = drawchat.editor.DrawEditorProperties;
 import * as React from "react";
 import * as styles from "./EraserToolButtonStyle.css";
+import {EditorProperties} from "@s2study/draw-editor/lib/EditorProperties";
 
 export interface EraserToolButtonProps {
 	key: any;
-	editorProperties: DrawchatEditorProperties;
+	editorProperties: EditorProperties;
 	selected?: boolean;
-	onSelect: ()=>any;
+	onSelect: () => any;
 }
 export class EraserToolButton extends React.Component<EraserToolButtonProps, any> {
 	constructor(props: EraserToolButtonProps) {
@@ -23,7 +21,9 @@ export class EraserToolButton extends React.Component<EraserToolButtonProps, any
 		return (
 			<div className={styles.item}>
 				<div
-					onClick={() => { this.props.onSelect(); }}
+					onClick={() => {
+						this.props.onSelect();
+					}}
 					className={this.props.selected ? styles.item__circle_selected : styles.item__circle}>
 					<div className={styles.item__circle_cell}>
 						<span style={style} className="material-icons">panorama_fish_eye</span>

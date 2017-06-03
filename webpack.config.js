@@ -1,106 +1,108 @@
 const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const webpack = require("webpack");
+// const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require("webpack");
+const precss = require('precss');
+const mqpacker = require('css-mqpacker');
+
+// const mainCSS = new ExtractTextPlugin('./artifact/app.css');
 
 module.exports = [
 	{
 		context: __dirname,
-		entry: './lib/ExportRenderEditor.js',
+		entry: './entry/loader.js',
 		output: {
-			filename: './dist/s2study-draw-ui.js'
+			filename: './artifact/app.js'
 		},
 		resolve: {
-			extensions: ['' , '.css' , '.js' , '.json'],
-			modulesDirectories: [
-				'src',
-				'node_modules',
-				path.resolve(__dirname, './node_modules')
-			]
+			extensions: ['.scss' , '.css' , ".ts" , ".tsx" , '.js' , '.json'],
 		},
 		devtool: 'source-map',
 		module: {
-			loaders: [
-				//	CSS
+			rules: [
 				{
-					test: /(\.css)$/,
-					loaders: [
-						'style',
-						'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss'
+					test: /(\.scss|\.css)$/,
+					use: [
+					// use: mainCSS.extract([
+						{
+							loader: 'style-loader',
+							options: { sourceMap: true }
+						}, {
+							loader: 'css-loader',
+							options: {
+								localIdentName: '[sha512:hash:base32]-[name]-[local]',
+								modules: true,
+								sourceMap: true
+							}
+						}, {
+							loader: 'postcss-loader',
+							options: {
+								postcss: [
+									precss(),
+									autoprefixer({
+										browsers: [
+											'last 3 version',
+											'ie >= 10',
+										],
+									}),
+									mqpacker(),
+								],
+								sourceMap: true
+							},
+							// options: { sourceMap: true }
+						}, {
+							loader: 'sass-loader',
+							options: {
+								sourceMap: true
+							}
+						}
 					]
+					// ])
 				},
-				//	Image
+
+				// Image
 				{
 					test: /\.(png|jpg|jpeg|gif|bmp)$/, loader: 'url-loader?limit=8192'
-				}
-			],
-			preLoaders: [
+				},
+
+				// TypeScript
 				{
+					test: /\.tsx?$/,
+					loader: "ts-loader",
+					exclude: /(node_modules)/
+					// loader: "awesome-typescript-loader"
+				},
+
+				// Html
+				{
+					test: /\.hbs$/,
+					loader: "handlebars-loader"
+				},
+				{
+					enforce: "pre",
 					test: /\.js$/,
 					loader: "source-map-loader"
-				}
-			]
+				},
+			],
 		},
-		postcss: [autoprefixer],
+
+		// postcss: [autoprefixer],
 		plugins: [
-			new webpack.DefinePlugin({
-				"process.env": {
-					NODE_ENV: JSON.stringify("production"),
-					BROWSER: JSON.stringify(true)
-				}
-			}),
-			// new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor-[chunkhash].js', Infinity),
-			new webpack.optimize.DedupePlugin(),
-			new webpack.optimize.OccurenceOrderPlugin(true),
-			new webpack.optimize.UglifyJsPlugin()
+			// mainCSS,
+			new HtmlWebpackPlugin({
+				title: 'drawChat',
+				template: 'entry/entry.hbs',
+				filename: './artifact/index.html',
+				xhtml: true,
+				hash: true,
+				cache: true,
+				cacheBreak: new Date().getTime()
+			})
 		],
-		// externals: {
-		// 	"react": "React",
-		// 	"react-dom": "ReactDOM"
-		// }
+		externals: {
+			"react": "React",
+			"react-dom": "ReactDOM"
+		}
 	},
-	// // デフォルトCSS
-	// {
-	// 	entry: './scss/loader.js',
-	// 	output: {
-	// 		filename: './dist/default.css'
-	// 	},
-	// 	devtool: 'source-map',
-	// 	module: {
-	// 		loaders: [
-	// 			{
-	// 				test: /\.css$/,
-	// 				loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-	// 			},
-	// 			{
-	// 				test: /\.scss$/,
-	// 				loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader")
-	// 			}
-	// 		]
-	// 	},
-	// 	plugins: [
-	// 		new ExtractTextPlugin('./artifact/default.css')
-	// 	]
-	// },
-	// //HTMLファイル
-	// {
-	// 	output: {
-	// 		path: 'dist',
-	// 		filename: 'index.html'
-	// 	},
-	// 	module: {
-	// 		loaders: [
-	// 			{
-	// 				test: /\.hbs$/, loader: "handlebars"
-	// 			}
-	// 		]
-	// 	},
-	// 	plugins: [
-	// 		new HtmlWebpackPlugin({
-	// 			template: 'hbs/entry.hbs',
-	// 			cacheBreak: new Date().getTime()
-	// 		})
-	// 	]
-	// }
 ];

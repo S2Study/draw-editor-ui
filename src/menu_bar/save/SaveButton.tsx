@@ -15,7 +15,7 @@ export class SaveButton extends React.Component<SaveButtonProps, any> {
 		return (
 			<div className={styles.item}>
 				<div onClick={() => {
-					if(!this.props.disabled) {
+					if (!this.props.disabled) {
 						this.props.action();
 					}
 				}} className={

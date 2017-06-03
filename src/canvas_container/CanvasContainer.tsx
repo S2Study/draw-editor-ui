@@ -1,12 +1,10 @@
-import * as drawchat from "@s2study/draw-api";
-
 import * as React from "react";
 import * as styles from "./CanvasContainerStyle.css";
-import DrawchatEditor = drawchat.editor.DrawEditor;
+import {Editor} from "@s2study/draw-editor/lib/Editor";
 
 export interface CanvasContainerProps {
 	id: string;
-	editor: DrawchatEditor;
+	editor: Editor;
 }
 
 export class CanvasContainer extends React.Component<CanvasContainerProps, any> {

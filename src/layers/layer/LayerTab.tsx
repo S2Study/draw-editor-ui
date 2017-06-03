@@ -15,8 +15,10 @@ export class LayerTab extends React.Component<LayerTabProps, any> {
 	render() {
 		return (
 			<div className={styles.item}>
-				<div onClick={() => {this.props.select(); }}
-					className={this.props.selected ? styles.item__selected : styles.item__unselected}>
+				<div onClick={() => {
+					this.props.select()
+				}}
+					 className={this.props.selected ? styles.item__selected : styles.item__unselected}>
 					{(() => {
 						if (this.props.selected) {
 							return <span className="material-icons">radio_button_checked</span>;

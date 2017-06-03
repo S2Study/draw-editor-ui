@@ -15,7 +15,9 @@ export class ClipToolButton extends React.Component<ClipToolButtonProps, any> {
 	render() {
 		return (
 			<div className={styles.item}>
-				<div onClick={() => {this.props.onSelect(); }}
+				<div onClick={() => {
+					this.props.onSelect();
+				}}
 					className={this.props.selected ? styles.item__circle_selected : styles.item__circle}>
 					<div className={styles.item__circle_cell}>
 						<span className="material-icons">crop_free</span>

@@ -1,9 +1,7 @@
-import * as drawchat from "@s2study/draw-api";
-
 import * as React from "react";
 import * as styles from "./ColorItemStyle.css";
-import Color = drawchat.editor.Color;
-import DrawchatEditorProperties = drawchat.editor.DrawEditorProperties;
+import {Color} from "@s2study/draw-editor/lib";
+import {ColorImpl} from "@s2study/draw-editor/lib/Color";
 
 export interface ColorItemProps {
 	key: number;
@@ -26,23 +24,22 @@ export class ColorItem extends React.Component<ColorItemProps, ColorItemState> {
 		};
 	}
 
-	// componentDidMount(){
-	// }
-
-	selectColor(// e:React.SyntheticEvent
+	selectColor(
 	): void {
 		this.props.onSelect();
 	}
 
-	private getColor() {
-		return this.props.color ? this.props.color : {r: 0, g: 0, b: 0};
+	private getColor(): Color {
+		return this.props.color ? this.props.color : new ColorImpl(0, 0, 0);
 	}
 
 	render() {
+
 		let color = this.getColor();
-		let spanStyle = {
+		const spanStyle = {
 			color: `rgb(${color.r},${color.g},${color.b})`
 		};
+
 		return (
 			<div className={styles.item}>
 				<div onClick={(event) => this.selectColor()} className={

@@ -15,7 +15,7 @@ export class UndoButton extends React.Component<UndoButtonProps, any> {
 		return (
 			<div className={styles.item}>
 				<div onClick={() => {
-					if(!this.props.disabled) {
+					if (!this.props.disabled) {
 						this.props.action();
 					}
 				}} className={this.props.disabled ? styles.item__square_disabled : styles.item__square}>
