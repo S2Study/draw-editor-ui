@@ -1,11 +1,32 @@
-import * as React from 'react';
-import * as styles from './HandToolButtonStyle.scss';
-export class HandToolButton extends React.Component {
-    constructor(props) {
-        super(props);
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
+var styles = require("./HandToolButtonStyle.css");
+var HandToolButton = (function (_super) {
+    __extends(HandToolButton, _super);
+    function HandToolButton(props) {
+        return _super.call(this, props) || this;
     }
-    render() {
-        return (React.createElement("div", {className: styles.item}, React.createElement("div", {onClick: () => { this.props.onSelect(); }, className: this.props.selected ? styles.item__circle_selected : styles.item__circle}, React.createElement("div", {className: styles.item__circle_cell}, React.createElement("span", {className: "material-icons"}, "pan_tool")))));
-    }
-}
+    HandToolButton.prototype.render = function () {
+        var _this = this;
+        return (React.createElement("div", { className: styles.item },
+            React.createElement("div", { onClick: function () {
+                    _this.props.onSelect();
+                }, className: this.props.selected ? styles.item__circle_selected : styles.item__circle },
+                React.createElement("div", { className: styles.item__circle_cell },
+                    React.createElement("span", { className: "material-icons" }, "pan_tool")))));
+    };
+    return HandToolButton;
+}(React.Component));
+exports.HandToolButton = HandToolButton;
 //# sourceMappingURL=HandToolButton.js.map

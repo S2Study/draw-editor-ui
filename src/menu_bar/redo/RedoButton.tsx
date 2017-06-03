@@ -1,21 +1,22 @@
-import * as React from 'react';
-import * as styles from './RedoButtonStyle.scss';
+import * as React from "react";
+import * as styles from "./RedoButtonStyle.css";
 
 export interface RedoButtonProps {
-	action():void;
-	disabled?:boolean;
+	action(): void;
+	disabled?: boolean;
 }
 export class RedoButton extends React.Component<RedoButtonProps, any> {
 
-	constructor(props:RedoButtonProps) {
+	constructor(props: RedoButtonProps) {
 		super(props);
 		this.state = {};
 	}
+
 	render() {
-		return(
+		return (
 			<div className={styles.item}>
-				<div onClick={()=>{
-					if(!this.props.disabled){
+				<div onClick={() => {
+					if (!this.props.disabled) {
 						this.props.action();
 					}
 				}} className={

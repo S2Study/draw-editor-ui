@@ -1,20 +1,21 @@
-import * as React from 'react';
-import * as styles from './SaveButtonStyle.scss';
+import * as React from "react";
+import * as styles from "./SaveButtonStyle.css";
 
 export interface SaveButtonProps {
-	action():void;
-	disabled?:boolean;
+	action(): void;
+	disabled?: boolean;
 }
 export class SaveButton extends React.Component<SaveButtonProps, any> {
 
-	constructor(props:SaveButtonProps) {
+	constructor(props: SaveButtonProps) {
 		super(props);
 	}
+
 	render() {
-		return(
+		return (
 			<div className={styles.item}>
-				<div onClick={()=>{
-					if(!this.props.disabled){
+				<div onClick={() => {
+					if (!this.props.disabled) {
 						this.props.action();
 					}
 				}} className={

@@ -1,28 +1,34 @@
 // gulpfile.js
 
 const gulp = require('gulp');
-const babel = require('gulp-babel');
 const merge2 = require('merge2');
+const mocha = require('gulp-mocha');
+const istanbul = require('gulp-istanbul');
 const sourcemaps = require('gulp-sourcemaps');
 const typescript = require('gulp-typescript');
-var sass = require('gulp-sass');
-var postcss = require('gulp-postcss');
-var cssnext = require('postcss-cssnext');
-const tsConfig = {
-	target: 'es6',
-	declaration:true,
-	moduleResolution: "node",
-	jsx: "react"
-};
-function doCompile(src,dest){
+const tslint = require("gulp-tslint");
+const sass = require('gulp-sass');
+const postcss = require('gulp-postcss');
+const cssnext = require('postcss-cssnext');
+const remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+
+const tsConfig = typescript.createProject('tsconfig.json',{
+	"declaration":true
+});
+
+const tsConfigTest = typescript.createProject('tsconfig.json',{
+});
+
+function doCompile(src, dest, config){
+
 	let tsResult = gulp
 		.src(src)
 		.pipe(sourcemaps.init())
-		.pipe(typescript(tsConfig));
+		.pipe(config());
+
 	return merge2([
 		tsResult.dts.pipe(gulp.dest(dest)),
 		tsResult.js
-			.pipe(babel({ presets: ['stage-3', 'es2015'] }))
 			.pipe(sourcemaps.write(".",{
 				includeContent: true,
 				sourceRoot: '.'
@@ -30,19 +36,66 @@ function doCompile(src,dest){
 			.pipe(gulp.dest(dest))
 	]);
 }
-gulp.task('compile-lib', () => {
-		return doCompile(['src/**/*.ts','src/**/*.tsx', 'typings/**/*.d.ts'], 'lib');
+
+function remapCoverageFiles() {
+	return gulp.src('./coverage/coverage-final.json')
+		.pipe(remapIstanbul({
+			reports: {
+				'json': './coverage/coverage-remap.json',
+				// 'html': './coverage/report',
+				// 'text-summary': null,
+				// 'lcovonly': './coverage/lcov.info'
+			}
+		}));
+}
+
+gulp.task("tslint", () =>
+	gulp.src(['src/**/*.ts'])
+		.pipe(tslint({
+			formatter: "verbose"
+		}))
+		.pipe(tslint.report())
+);
+
+gulp.task("pre-test",['compile-test'], () => {
+		return gulp.src(['src/**/*.js'])
+			.pipe(istanbul())
+			.pipe(istanbul.hookRequire());
+	}
+);
+gulp.task("test",['pre-test'], () => {
+		return gulp.src('test/**/*Test.js')
+		// .pipe(mocha({ui:'bdd'}))
+			.pipe(mocha())
+			.pipe(istanbul.writeReports({
+				reporters: [ 'json'],
+			})).pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } })
+			).on('end', remapCoverageFiles);
+	}
+);
+
+gulp.task('compile-dev', () => {
+	return doCompile(['src/**/*.ts'], 'src', tsConfigTest);
 });
-gulp.task('compile',['compile-lib','scss'], ()=>{
-		return doCompile(['index.ts','typings/**/*.d.ts'],'.');
+gulp.task('compile-test',['compile-dev'], () => {
+	return doCompile(['test/**/*.ts'], 'test', tsConfigTest);
 });
-gulp.task('default', ['compile']);
+gulp.task('compile-lib', ['tslint'] , () => {
+	return doCompile(['src/**/*.ts','src/**/*.tsx'], 'lib', tsConfig);
+});
+gulp.task('compile',['compile-lib', 'scss'], ()=>{
+	return doCompile(['index.ts'],'.', tsConfig);
+});
 gulp.task('scss', function() {
-	var processors = [
+	const processors = [
 		cssnext()
 	];
 	return gulp.src('src/**/*.scss')
+		.pipe(sourcemaps.init())
 		.pipe(sass())
 		.pipe(postcss(processors))
+		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('lib'))
 });
+gulp.task('default', ['compile']);
+

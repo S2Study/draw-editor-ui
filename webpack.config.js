@@ -1,106 +1,108 @@
-var path = require('path');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var autoprefixer = require('autoprefixer');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const webpack = require("webpack");
+// const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const autoprefixer = require('autoprefixer');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const precss = require('precss');
+const mqpacker = require('css-mqpacker');
+
+// const mainCSS = new ExtractTextPlugin('./artifact/app.css');
 
 module.exports = [
 	{
 		context: __dirname,
-		entry: './src/entry.tsx',
+		entry: './entry/loader.js',
 		output: {
 			filename: './artifact/app.js'
 		},
 		resolve: {
-			extensions: ['' , '.scss' , '.css' , ".ts" , ".tsx" , '.js' , '.json'],
-			modulesDirectories: [
-				'src',
-				'node_modules',
-				path.resolve(__dirname, './node_modules')
-			]
+			extensions: ['.scss' , '.css' , ".ts" , ".tsx" , '.js' , '.json'],
 		},
 		devtool: 'source-map',
 		module: {
-			loaders: [
-				//	TypeScript
-				{
-					test: /\.tsx?$/,
-					loader: 'babel-loader?presets[]=es2015,presets[]=stage-3,presets[]=react!ts-loader',
-					exclude: /(node_modules)/
-				},
-
-				//	CSS
+			rules: [
 				{
 					test: /(\.scss|\.css)$/,
-					loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
+					use: [
+					// use: mainCSS.extract([
+						{
+							loader: 'style-loader',
+							options: { sourceMap: true }
+						}, {
+							loader: 'css-loader',
+							options: {
+								localIdentName: '[sha512:hash:base32]-[name]-[local]',
+								modules: true,
+								sourceMap: true
+							}
+						}, {
+							loader: 'postcss-loader',
+							options: {
+								postcss: [
+									precss(),
+									autoprefixer({
+										browsers: [
+											'last 3 version',
+											'ie >= 10',
+										],
+									}),
+									mqpacker(),
+								],
+								sourceMap: true
+							},
+							// options: { sourceMap: true }
+						}, {
+							loader: 'sass-loader',
+							options: {
+								sourceMap: true
+							}
+						}
+					]
+					// ])
 				},
 
-				//	Image
+				// Image
 				{
 					test: /\.(png|jpg|jpeg|gif|bmp)$/, loader: 'url-loader?limit=8192'
-				}
-			],
-			preLoaders: [
+				},
+
+				// TypeScript
 				{
+					test: /\.tsx?$/,
+					loader: "ts-loader",
+					exclude: /(node_modules)/
+					// loader: "awesome-typescript-loader"
+				},
+
+				// Html
+				{
+					test: /\.hbs$/,
+					loader: "handlebars-loader"
+				},
+				{
+					enforce: "pre",
 					test: /\.js$/,
 					loader: "source-map-loader"
-				}
-			]
+				},
+			],
 		},
-		postcss: [autoprefixer],
-		// sassLoader: {
-		// 	data: '@import "theme/_config.scss";',
-		// 	includePaths: [path.resolve(__dirname, './scss')]
-		// },
+
+		// postcss: [autoprefixer],
 		plugins: [
-			new ExtractTextPlugin('./artifact/app.css', { allChunks: true }),
-		]
-		,
+			// mainCSS,
+			new HtmlWebpackPlugin({
+				title: 'drawChat',
+				template: 'entry/entry.hbs',
+				filename: './artifact/index.html',
+				xhtml: true,
+				hash: true,
+				cache: true,
+				cacheBreak: new Date().getTime()
+			})
+		],
 		externals: {
 			"react": "React",
 			"react-dom": "ReactDOM"
 		}
 	},
-	// デフォルトCSS
-	{
-		entry: './scss/loader.js',
-		output: {
-			filename: './artifact/default.css'
-		},
-		devtool: 'source-map',
-		module: {
-			loaders: [
-				{
-					test: /\.css$/,
-					loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-				},
-				{
-					test: /\.scss$/,
-					loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader")
-				}
-			]
-		},
-		plugins: [
-			new ExtractTextPlugin('./artifact/default.css')
-		]
-	},
-	//HTMLファイル
-	{
-		output: {
-			path: 'artifact',
-			filename: 'index.html'
-		},
-		module: {
-			loaders: [
-				{
-					test: /\.hbs$/, loader: "handlebars"
-				}
-			]
-		},
-		plugins: [
-			new HtmlWebpackPlugin({
-				template: 'hbs/entry.hbs',
-				cacheBreak: new Date().getTime()
-			})
-		]
-	}
 ];

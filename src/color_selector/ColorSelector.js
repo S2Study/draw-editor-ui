@@ -1,37 +1,58 @@
-import * as React from 'react';
-import * as styles from './ColorSelectorStyle.scss';
-import { ColorItem } from "./color_item/ColorItem";
-export class ColorValue {
-    constructor(color, selected) {
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = require("react");
+var styles = require("./ColorSelectorStyle.css");
+var ColorItem_1 = require("./color_item/ColorItem");
+var ColorValue = (function () {
+    function ColorValue(color, selected) {
         this.color = color;
         this.selected = selected;
     }
-}
-export class ColorSelectorState {
-    constructor(colors, palette) {
+    return ColorValue;
+}());
+exports.ColorValue = ColorValue;
+var ColorSelectorState = (function () {
+    function ColorSelectorState(colors, palette) {
         this.colors = colors;
         this.palette = palette;
     }
-}
-export class ColorSelector extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = new ColorSelectorState(props.colors.map((color, i) => {
+    return ColorSelectorState;
+}());
+exports.ColorSelectorState = ColorSelectorState;
+var ColorSelector = (function (_super) {
+    __extends(ColorSelector, _super);
+    function ColorSelector(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = new ColorSelectorState(props.colors.map(function (color, i) {
             return new ColorValue(color, props.selectedIndex === i);
         }));
+        return _this;
     }
-    selectColor(color, index) {
-        this.setState(new ColorSelectorState(this.state.colors.map((colorValue, i) => {
+    ColorSelector.prototype.selectColor = function (color, index) {
+        this.setState(new ColorSelectorState(this.state.colors.map(function (colorValue, i) {
             return new ColorValue(colorValue.color, i === index);
         })));
         this.props.onSelect(color);
-    }
-    render() {
-        return (React.createElement("div", {className: styles.container}, this.state.colors.map((colorValue, index) => {
-            return React.createElement(ColorItem, {key: index, color: colorValue.color, selected: colorValue.selected, onSelect: () => {
-                this.selectColor(colorValue.color, index);
-            }});
+    };
+    ColorSelector.prototype.render = function () {
+        var _this = this;
+        return (React.createElement("div", { className: styles.container }, this.state.colors.map(function (colorValue, index) {
+            return React.createElement(ColorItem_1.ColorItem, { key: index, color: colorValue.color, selected: colorValue.selected, onSelect: function () {
+                    _this.selectColor(colorValue.color, index);
+                } });
         })));
-    }
-}
+    };
+    return ColorSelector;
+}(React.Component));
+exports.ColorSelector = ColorSelector;
 //# sourceMappingURL=ColorSelector.js.map

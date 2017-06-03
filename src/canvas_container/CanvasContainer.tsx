@@ -1,25 +1,26 @@
-import * as React from 'react';
-import * as styles from './CanvasContainerStyle.scss';
-import DrawchatEditor = drawchat.editor.DrawchatEditor;
+import * as React from "react";
+import * as styles from "./CanvasContainerStyle.css";
+import {Editor} from "@s2study/draw-editor/lib/Editor";
 
 export interface CanvasContainerProps {
-	id:string;
-	editor:DrawchatEditor;
+	id: string;
+	editor: Editor;
 }
 
 export class CanvasContainer extends React.Component<CanvasContainerProps, any> {
-	constructor(props:CanvasContainerProps) {
+	constructor(props: CanvasContainerProps) {
 		super(props);
 	}
+
 	render() {
-		let style={
-			width:this.props.editor.getWidth(),
-			height:this.props.editor.getHeight()
+		let style = {
+			width: this.props.editor.getWidth(),
+			height: this.props.editor.getHeight()
 		};
-		return(
+		return (
 			<div className={styles.container}>
 				<div style={style} className={styles.container__background}>
-					<div style={style} id={this.props.id} className={styles.container__canvas} />
+					<div style={style} id={this.props.id} className={styles.container__canvas}/>
 				</div>
 			</div>
 		);
